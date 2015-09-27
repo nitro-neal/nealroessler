@@ -8,7 +8,7 @@ files:
   - source: img
     destination: /var/www/html/img/
   - source: MySite
-    destination: /home/ec2-user/RAILS/
+    destination: /home/ec2-user/RAILS/MySite/
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
