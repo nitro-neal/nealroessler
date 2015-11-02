@@ -9,6 +9,8 @@ files:
     destination: /var/www/html/img/
   - source: MySite
     destination: /home/ec2-user/RAILS/MySite/
+  - source: ExplodeSearch
+    destination: /home/ec2-user/RAILS/ExplodeSearch/
 hooks:
   BeforeInstall:
     - location: scripts/install_dependencies
