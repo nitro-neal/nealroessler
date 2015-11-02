@@ -1,0 +1,141 @@
+
+<div id="popupWarning" class="alert alert-warning" style="text-align:center">
+  <strong>Warning! You may need to disable popup blocker for Explode Search to work correctly.</strong>
+</div>
+
+<div class = "container" style="text-align:center">
+  <h1><%= image_tag "explode.gif" %></h1>
+
+  <%= form_for :search, :html=> {:id => 'search_form'} do |f| %>
+    <p>
+      <!--<%= f.label :searchTerm %><br>-->
+      <%= f.text_field :searchTerm, :class => 'form-control', :placeholder=>'kitty'%>
+    </p>
+   
+    <!--<p>
+      <%= f.label :numberOfSearches %><br>
+      <%= f.text_area :numberOfSearches %>
+    </p>-->
+   
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <label>
+          <input id="openTabs" type="checkbox" checked> Open Tabs
+        </label>
+
+        <label>
+          <input id="googleTab" url="https://www.google.com/#q=" type="checkbox" checked> Google
+        </label>
+
+        <label>
+          <input id="wikipediaTab" url="https://en.wikipedia.org/wiki/" type="checkbox" checked> Wikipedia
+        </label>
+
+        <label>
+          <input id="youtubeTab" url="https://www.youtube.com/results?search_query=" type="checkbox" checked> Youtube
+        </label>
+
+        <label>
+          <input id="stackOverflowTab" url="http://stackoverflow.com/search?q=" type="checkbox" checked> Stack Overflow
+        </label>
+
+        <label>
+          <input id="amazonTab" url="http://www.amazon.com/s/ref=nb_sb_noss_2?url=field-keywords=" type="checkbox" checked> Amazon
+        </label>
+
+        <label>
+          <input id="redditTab" type="checkbox" url="https://www.reddit.com/search?q=" checked> Reddit
+        </label>
+      </div>
+    </div>
+
+    <p>
+    <!--<button type="button" class="btn btn-default btn-lg">
+      
+      Explode Search </button>-->
+      <%= f.submit "Explode Search", :class =>'btn btn-default btn-lg' %>
+    </p>
+
+
+  <% end %>
+</div>
+
+<div class = "container">
+
+<iframe id="googleFrame" width="450" height="667" frameborder="0" marginheight="0" marginwidth="0" src="http://www.google.com/custom?q=Kitty">
+</iframe>
+
+<iframe id="wikiFrame" width="450" height="667" frameborder="0" marginheight="0" marginwidth="0" src="https://en.wikipedia.org/wiki/Kitty">
+</iframe>
+
+<!--
+<iframe width="375" height="667" frameborder="0" marginheight="0" marginwidth="0" src="https://www.youtube.com/">
+</iframe>
+
+<iframe width="375" height="667" frameborder="0" marginheight="0" marginwidth="0" src="http://stackoverflow.com/">
+</iframe>
+
+<iframe width="375" height="667" frameborder="0" marginheight="0" marginwidth="0" src="https://www.facebook.com/">
+</iframe>
+-->
+<div style="width:200px; display: inline-block;">
+  <!--<h1>Popular Searches</h1>-->
+   
+  <table>
+    <caption>Popular Searches</caption>
+    <tr>
+      <th>Search Term</th>
+      <th>Number Of Searches</th>
+    </tr>
+   
+    <% @searches.each do |search| %>
+      <tr>
+        <td><%= search.searchTerm %></td>
+        <td><%= search.numberOfSearches %></td>
+      </tr>
+    <% end %>
+  </table>
+
+</div>
+
+<script type='text/javascript'>
+var tabs = ["googleTab", "wikipediaTab", "youtubeTab", "stackOverflowTab", "amazonTab", "redditTab"];
+
+var lastSearch = localStorage.getItem("searchTerm");
+
+if(lastSearch!=null){
+  $('#googleFrame').attr('src', "http://www.google.com/custom?q=" + lastSearch);
+  $('#wikiFrame').attr('src', "https://en.wikipedia.org/wiki/" + lastSearch);
+  //$('#popupWarning').attr("disabled", true);
+}
+
+$('#openTabs').click(function() {
+    var $this = $(this);
+    var checked = $('#openTabs').is(':checked');
+
+    for (i = 0; i < tabs.length; i++){
+      var tab = tabs[i];
+      $('#' + tab).attr("disabled", !checked);
+    }
+});
+
+$( "#search_form" ).submit(function( event ) {
+  var searchTerm = $(search_searchTerm).val();
+  localStorage.setItem("searchTerm", searchTerm);
+
+  if($( "#openTabs" ).is(":checked")){
+    for (i = 0; i < tabs.length; i++){
+      var tab = tabs[i];
+      if($('#' + tab).is(":checked")){
+        var tabURL = $('#' + tab).attr('url');
+        window.open(tabURL + searchTerm);
+      }
+    }
+    
+    //window.open("https://en.wikipedia.org/wiki/" + searchTerm);
+    //$('#' + id).is(":checked")
+  }
+  //event.preventDefault();
+  //window.open("http://www.facebook.com/",'');
+});
+</script>
